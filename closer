@@ -1,0 +1,8 @@
+
+target/arbian_kernel/debug/arbian_kernel:	file format elf64-x86-64
+
+Disassembly of section .text:
+
+0000000000201120 <_start>:
+  201120: eb 00                        	jmp	0x201122 <_start+0x2>
+  201122: eb fe                        	jmp	0x201122 <_start+0x2>
