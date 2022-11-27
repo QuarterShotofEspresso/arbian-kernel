@@ -4,20 +4,28 @@
 
 use core::panic::PanicInfo;
 
-static HELLO: &[u8] = b"Hellow World!";
+//static HELLO: &[u8] = b"Hellow World!";
+
+use vga_buffer::Color;
+use vga_buffer::Buffer;
+use vga_buffer::Writer;
+mod vga_buffer;
+
 
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
-    let vga_buffer = 0xb8000 as *mut u8;
+    
+    let mut myBuffer: Buffer = Buffer::new(Color::Pink, Color::DarkGray);
+    myBuffer.write_byte(&b'H');
+    myBuffer.write_byte(&b'e');
+    myBuffer.write_byte(&b'\n');
 
-    for (i, &byte) in HELLO.iter().enumerate() {
-        unsafe {
-            *vga_buffer.offset(i as isize * 2) = byte;
-            *vga_buffer.offset(i as isize * 2 + 1) = 0xb3;
-        }
-    }
+    myBuffer.write_string(&"Hello\nWonderful\nPeople");
+    myBuffer.write_string(&"Hello\nWonderful\nPeople\t");
 
-    //println!("Hello, world!");
+    let mut myWriter: Writer = Writer::new(Color::Yellow, Color::Black);
+    myWriter.write_string("Hello Beauultiful World. What do you say to anevening snaack on this fine afternoon. Hmmm?");
+
     loop {}
 }
 
