@@ -29,12 +29,14 @@ struct CdPg437Char {
 
 const BUF_WIDTH:  usize = 50;
 const BUF_HEIGHT: usize = 50;
+const BUF_SIZE: usize = 50 * 60;
 
 pub struct Writer {
     cursor_x: usize,
     cursor_y: usize,
     color_code:  u8,
     buffer:      &'static mut [[CdPg437Char; BUF_WIDTH]; BUF_HEIGHT],
+    bufferSingle: &'static mut [CdPg437Char; BUF_SIZE],
 }
 
 impl Writer {
@@ -44,7 +46,8 @@ impl Writer {
             cursor_x: 0,
             cursor_y: 0,
             color_code: ((background as u8) << 4 | (foreground as u8)),
-            buffer: unsafe {&mut *(0xb8000 as *mut [[CdPg437Char; BUF_WIDTH]; BUF_HEIGHT])}
+            buffer: unsafe {&mut *(0xb8000 as *mut [[CdPg437Char; BUF_WIDTH]; BUF_HEIGHT])},
+            bufferSingle: unsafe {&mut *(0xb8000 as *mut [CdPg437Char; BUF_SIZE])},
         }
     }
 
